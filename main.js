@@ -1,10 +1,35 @@
 // Defining text characters for the empty and full hearts for you to use later.
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
+const error = document.getElementById('modal');
+error.className = "hidden";
 
-// Your JavaScript code goes here!
+const likegl=document.querySelectorAll(".like-glyph");
 
+function like(e) {
+  const heart = e.target;
+  //console.log(heart);
+  mimicServerCall()
+    .then(function(){
+      if ( heart.innerText === EMPTY_HEART) {
+        heart.innerText = FULL_HEART;
+        heart.className = "activated-heart";
+      } else {
+        heart.innerText = EMPTY_HEART;
+        heart.className = "";
+      }
+    })
+    .catch(function(error) {
+      const modal = document.getElementById("modal");
+      modal.className = "";
+      modal.innerText = error;
+      setTimeout(() =>  modal.className = "hidden", 3000);
+    });
+}
 
+for (const glyph of likegl) {
+  glyph.addEventListener("click", like);
+}
 
 
 //------------------------------------------------------------------------------
